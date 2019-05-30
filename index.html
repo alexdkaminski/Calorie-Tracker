@@ -34,15 +34,15 @@
         <form class="col">
           <div class="row">
             <div class="input-field col s3">
-              <input type="text" placeholder="Add Item" id="item-name">
+              <input type="text" placeholder="Add Item" id="item-name"/>
               <label for="item-name">Meal</label>
             </div>
             <div class="input-field col s3">
-              <input type="number" placeholder="Add Calories" id="item-calories">
+              <input type="number" placeholder="Add Calories" id="item-calories"/>
               <label for="item-calories">Calories</label>
             </div>
             <div class="input-field col s3">
-              <input type="text" class="datepicker" id="item-date">
+              <input type="text" class="datepicker" id="item-date"/>
               <label for="item-date">Date</label>
             </div>
           </div>
@@ -50,13 +50,24 @@
           <button class="update-btn btn orange"><i class="fa fa-pencil-square-o"></i> Update Meal</button>
           <button class="delete-btn btn red"><i class="fa fa-remove"></i> Delete Meal</button>
           <button class="back-btn btn grey pull-right"><i class="fa fa-chevron-circle-left"></i> Back</button>
+        </form>
       </div>
-      </form>
     </div>
   </div>
 
+  <div class="container">
+    <form class="col">
+      <div class="row">
+        <div class="input-field center-align col s4 offset-s4">
+          <input type="text" class="datepicker" id="display-date" />
+          <label for="display-date">Display Meals for this date:</label>
+        </div>
+      </div>
+    </form>
+  </div>
+
   <!-- Calorie Count -->
-  <h3 class="center-align">Total Calories: <span class="total-calories">0</span></h3>
+  <h6 class="center-align">Total Calories: <span class="total-calories">0</span></h6>
 
   <!-- Item List -->
   <ul id="item-list" class="collection">

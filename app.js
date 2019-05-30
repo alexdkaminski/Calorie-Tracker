@@ -175,7 +175,6 @@ const ItemCtrl = (function () {
   }
 })();
 
-
 // UI Controller
 const UICtrl = (function () {
   const UISelectors = {
@@ -189,7 +188,8 @@ const UICtrl = (function () {
     itemNameInput: '#item-name',
     itemCaloriesInput: '#item-calories',
     itemDateInput: '#item-date',
-    totalCalories: '.total-calories'
+    totalCalories: '.total-calories',
+    displayDate: '#display-date'
   }
 
   // Public Methods
@@ -220,26 +220,27 @@ const UICtrl = (function () {
       }
     },
     addListItem: function (item) {
-      // Show the date
-      //const p = document.createElement('p');
-      //p.innerHTML = `${item.itemDate}`
-      // Insert date
-      //document.querySelector(UISelectors.itemList).insertAdjacentElement('beforebegin', li)
-      // Show the list
-      document.querySelector(UISelectors.itemList).style.display = 'block';
-      // Create li element
-      const li = document.createElement('li');
-      // Add class
-      li.className = 'collection-item';
-      // Add ID
-      li.id = `item-${item.id}`;
-      // Add HTML
-      li.innerHTML = ` <strong>${item.name}: </strong> <em>${item.calories} Calories</em>
-      <a href="#" class="secondary-content">
-        <i class="edit-item fa fa-pencil"></i>
-      </a>`;
-      // Insert item
-      document.querySelector(UISelectors.itemList).insertAdjacentElement('beforeend', li)
+      
+      if (item.itemDate == document.querySelector(UISelectors.displayDate).value) {
+        console.log ("Meal added with selected date")
+        // Show the list
+        document.querySelector(UISelectors.itemList).style.display = 'block';
+        // Create li element
+        const li = document.createElement('li');
+        // Add class
+        li.className = 'collection-item';
+        // Add ID
+        li.id = `item-${item.id}`;
+        // Add HTML
+        li.innerHTML = ` <strong>${item.name}: </strong> <em>${item.calories} Calories</em>
+                      <a href="#" class="secondary-content">
+                        <i class="edit-item fa fa-pencil"></i>
+                      </a>`;
+        // Insert item
+        document.querySelector(UISelectors.itemList).insertAdjacentElement('beforeend', li)
+      } else {
+        console.log("Meal added with other date")
+      }
     },
     updateListItem: function (item) {
       let listItems = document.querySelectorAll(UISelectors.listItems);
@@ -309,7 +310,6 @@ const UICtrl = (function () {
   }
 })();
 
-
 // App Controller
 const App = (function (ItemCtrl, StorageCtrl, UICtrl) {
   // Load event listeners
@@ -344,9 +344,11 @@ const App = (function (ItemCtrl, StorageCtrl, UICtrl) {
     document.querySelector(UISelectors.clearBtn).addEventListener('click', clearAllItemsClick);
 
     // Init date picker
-    document.addEventListener('DOMContentLoaded', function () {
-      var elems = document.querySelectorAll('.datepicker');
-      var instances = M.Datepicker.init(elems, {});
+    $(document).ready(function () {
+      $('.datepicker').datepicker({
+        defaultDate: new Date(),
+        setDefaultDate: true
+      });
     });
   }
 
@@ -508,7 +510,6 @@ const App = (function (ItemCtrl, StorageCtrl, UICtrl) {
   }
 
 })(ItemCtrl, StorageCtrl, UICtrl);
-
 
 // Initialise App
 App.init();
