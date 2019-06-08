@@ -359,7 +359,10 @@ const App = (function (ItemCtrl, StorageCtrl, UICtrl) {
       var instances = M.Datepicker.init(elems, options);
 
       // Change display date event
-      document.querySelector(UISelectors.datePickerDone).addEventListener('click', changeDisplayDate);
+      const datePickerDoneList = document.querySelectorAll(UISelectors.datePickerDone);
+      datePickerDoneList.forEach(e => {
+        e.addEventListener('click', changeDisplayDate);
+      });
     });
 
   }
@@ -495,6 +498,18 @@ const App = (function (ItemCtrl, StorageCtrl, UICtrl) {
   // Change display date event
   const changeDisplayDate = function () {
     console.log("Clicked change display date");
+
+    // Fetch items from data structure
+    const items = ItemCtrl.getItems();
+
+    // Check if any items
+    if (items.length === 0) {
+      UICtrl.hideList();
+    } else {
+      // Populate list with items
+      UICtrl.populateItemList(items);
+    }
+
   }
 
   // Public methods
