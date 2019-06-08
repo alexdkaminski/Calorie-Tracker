@@ -189,7 +189,8 @@ const UICtrl = (function () {
     itemCaloriesInput: '#item-calories',
     itemDateInput: '#item-date',
     totalCalories: '.total-calories',
-    displayDate: '#display-date'
+    displayDate: '#display-date',
+    datePickerDone: '.datepicker-done'
   }
 
   // Public Methods
@@ -198,15 +199,17 @@ const UICtrl = (function () {
       let html = '';
 
       items.forEach(function (item) {
-        html += `<p>${item.itemDate}</p>`
+        if (item.itemDate == document.querySelector(UISelectors.displayDate).value) {
+          html += `<p>${item.itemDate}</p>`
 
-        html +=
-          `<li class="collection-item" id="item-${item.id}">
-          <strong>${item.name}: </strong> <em>${item.calories} Calories</em>
-          <a href="#" class="secondary-content">
-            <i class="edit-item fa fa-pencil"></i>
-          </a>
-        </li>`;
+          html +=
+            `<li class="collection-item" id="item-${item.id}">
+            <strong>${item.name}: </strong> <em>${item.calories} Calories</em>
+            <a href="#" class="secondary-content">
+              <i class="edit-item fa fa-pencil"></i>
+            </a>
+          </li>`;
+        }
       });
 
       // Insert list items
@@ -220,7 +223,7 @@ const UICtrl = (function () {
       }
     },
     addListItem: function (item) {
-      
+      // Show item if item date matches display date
       if (item.itemDate == document.querySelector(UISelectors.displayDate).value) {
         console.log ("Meal added with selected date")
         // Show the list
@@ -343,13 +346,22 @@ const App = (function (ItemCtrl, StorageCtrl, UICtrl) {
     // Clear items event
     document.querySelector(UISelectors.clearBtn).addEventListener('click', clearAllItemsClick);
 
-    // Init date picker
-    $(document).ready(function () {
-      $('.datepicker').datepicker({
+    // Clear items event
+    document.querySelector(UISelectors.clearBtn).addEventListener('click', clearAllItemsClick);
+
+    // Load datepicker
+    document.addEventListener('DOMContentLoaded', function () {
+      var elems = document.querySelectorAll('.datepicker');
+      var options = {
         defaultDate: new Date(),
         setDefaultDate: true
-      });
+      }
+      var instances = M.Datepicker.init(elems, options);
+
+      // Change display date event
+      document.querySelector(UISelectors.datePickerDone).addEventListener('click', changeDisplayDate);
     });
+
   }
 
   // Add item submit
@@ -435,7 +447,6 @@ const App = (function (ItemCtrl, StorageCtrl, UICtrl) {
 
   // Delete button event
   const itemDeleteSubmit = function (e) {
-
     // Get current item
     const currentItem = ItemCtrl.getCurrentItem();
 
@@ -479,6 +490,11 @@ const App = (function (ItemCtrl, StorageCtrl, UICtrl) {
 
     // Hide item list
     UICtrl.hideList();
+  }
+
+  // Change display date event
+  const changeDisplayDate = function () {
+    console.log("Clicked change display date");
   }
 
   // Public methods
