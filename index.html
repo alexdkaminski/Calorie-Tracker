@@ -8,6 +8,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
   <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
     integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+  <link rel="stylesheet" href="custom.css">
   <title>Caltrack | Meal & Calorie Tracker</title>
 </head>
 
@@ -66,14 +67,17 @@
     </form>
   </div>
 
-  <!-- Calorie Count -->
-  <h6 class="center-align">Total Calories: <span class="total-calories">0</span></h6>
-
-  <!-- Item List -->
-  <ul id="item-list" class="collection">
-  </ul>
+  <div class="container">
+    <div class="row">
+        <!-- Calorie Count -->
+        <h6 class="center-align">Total Calories: <span class="total-calories">0</span></h6>
+    </div>
+    <div class="row">
+        <!-- Item List -->
+        <ul id="item-list" class="collection">
+        </ul>
+    </div>
   </div>
-
 
   <script src="https://code.jquery.com/jquery-3.2.1.min.js"
     integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
