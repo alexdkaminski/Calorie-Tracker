@@ -159,9 +159,15 @@ const ItemCtrl = (function () {
     getTotalCalories: function () {
       let total = 0;
 
+      // Get display date
+      var displayDate = document.querySelector('#display-date').value
+
       // Loop through items and add calories
       data.items.forEach(function (item) {
-        total += item.calories;
+
+        if (item.itemDate == displayDate) {
+          total += item.calories;
+        }
       });
       // Set total calories in data structure
       data.totalCalories = total;
@@ -200,7 +206,6 @@ const UICtrl = (function () {
 
       items.forEach(function (item) {
         if (item.itemDate == document.querySelector(UISelectors.displayDate).value) {
-          html += `<p>${item.itemDate}</p>`
 
           html +=
             `<li class="collection-item" id="item-${item.id}">
@@ -225,7 +230,6 @@ const UICtrl = (function () {
     addListItem: function (item) {
       // Show item if item date matches display date
       if (item.itemDate == document.querySelector(UISelectors.displayDate).value) {
-        console.log ("Meal added with selected date")
         // Show the list
         document.querySelector(UISelectors.itemList).style.display = 'block';
         // Create li element
@@ -241,9 +245,7 @@ const UICtrl = (function () {
                       </a>`;
         // Insert item
         document.querySelector(UISelectors.itemList).insertAdjacentElement('beforeend', li)
-      } else {
-        console.log("Meal added with other date")
-      }
+      } 
     },
     updateListItem: function (item) {
       let listItems = document.querySelectorAll(UISelectors.listItems);
@@ -361,8 +363,10 @@ const App = (function (ItemCtrl, StorageCtrl, UICtrl) {
       // Change display date event
       const datePickerDoneList = document.querySelectorAll(UISelectors.datePickerDone);
       datePickerDoneList.forEach(e => {
-        e.addEventListener('click', changeDisplayDate);
+        e.addEventListener('click', showItemsForDate);
       });
+
+      App.init();
     });
 
   }
@@ -496,8 +500,7 @@ const App = (function (ItemCtrl, StorageCtrl, UICtrl) {
   }
 
   // Change display date event
-  const changeDisplayDate = function () {
-    console.log("Clicked change display date");
+  const showItemsForDate = function () {
 
     // Fetch items from data structure
     const items = ItemCtrl.getItems();
@@ -509,6 +512,12 @@ const App = (function (ItemCtrl, StorageCtrl, UICtrl) {
       // Populate list with items
       UICtrl.populateItemList(items);
     }
+
+    // Get total calories
+    const totalCalories = ItemCtrl.getTotalCalories();
+
+    // Add total calories to UI
+    UICtrl.showTotalCalories(totalCalories);
 
   }
 
